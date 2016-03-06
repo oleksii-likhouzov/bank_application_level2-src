@@ -1,4 +1,4 @@
-package org.test;
+package org.test.bankapp;
 
 public interface Report {
     // Печать информации о себе (счете

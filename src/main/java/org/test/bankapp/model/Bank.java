@@ -1,6 +1,8 @@
 package org.test.bankapp.model;
 
-import org.test.*;
+import org.test.bankapp.ClientExistsException;
+import org.test.bankapp.ClientRegistrationListener;
+import org.test.bankapp.Report;
 
 import java.util.ArrayList;
 import java.util.Date;

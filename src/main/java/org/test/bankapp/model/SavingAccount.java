@@ -27,6 +27,22 @@ public final class SavingAccount extends AbstractAccount {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SavingAccount account = (SavingAccount) o;
+        System.out.println(":"+account);
+        return Float.compare(account.getBalance(), getBalance()) == 0;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return getBalance() != +0.0f ? Float.floatToIntBits(getBalance()) : 0;
+    }
+
+    @Override
     public String toString() {
         return "SavingAccount{" +
                 super.toString() +

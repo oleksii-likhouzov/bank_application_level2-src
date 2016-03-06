@@ -1,12 +1,12 @@
-package org.test;
+package org.test.bankapp;
 
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.test.bankapp.model.*;
-import org.test.org.test.bankapp.service.BankService;
-import org.test.org.test.bankapp.service.BankServiceImpl;
+import org.test.bankapp.service.BankService;
+import org.test.bankapp.service.BankServiceImpl;
 
 
 import java.util.List;
@@ -21,7 +21,11 @@ public class BankApplication {
 
         Client client = new Client(gender);
         client.setName(clientName);
+        try {
         bankService.addClient(bank, client);
+        } catch (ClientExistsException exception) {
+            log.log(Level.ERROR, "Duplicate client name: \"" + client.getName() + "\"");
+        }
     }
 
     private void addClient(String clientName, float initialOverdraft, Gender gender) {
@@ -29,7 +33,11 @@ public class BankApplication {
 
         Client client = new Client(gender, initialOverdraft);
         client.setName(clientName);
-        bankService.addClient(bank, client);
+        try {
+            bankService.addClient(bank, client);
+        } catch (ClientExistsException exception) {
+            log.log(Level.ERROR, "Duplicate client name: \"" + client.getName() + "\"");
+        }
     }
 
     public void initialize() {
@@ -37,7 +45,7 @@ public class BankApplication {
         addClient("First Client", Gender.FEMALE);
         addClient("Second Client", 100, Gender.FEMALE);
         addClient("Third Client", 0, Gender.MALE);
-        addClient("Third Client", -1, Gender.MALE);
+        addClient("Third Client", 1, Gender.MALE);
         addClient("For delete", 200, Gender.FEMALE);
         addClient("Five Client", 78, Gender.MALE);
         List<Client> clients = bank.getClients();
@@ -124,7 +132,6 @@ public class BankApplication {
             log.log(Level.ERROR, "Bank application is not initialized.");
             throw new RuntimeException("Bank application is not initialized.");
         }
-
     }
 
     public static void main(String[] argv) {

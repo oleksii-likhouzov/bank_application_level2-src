@@ -29,6 +29,10 @@ public abstract class AbstractAccount implements Account {
         System.out.println("  Balance:" + balance);
     }
 
+    public void decimalValue() {
+        System.out.println(Math.round(balance*100)/100.f);
+    }
+
     @Override
     public String toString() {
         return "AbstractAccount{" +

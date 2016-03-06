@@ -4,7 +4,7 @@ package org.test.bankapp.model;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.test.NotEnoughFundsException;
+import org.test.bankapp.NotEnoughFundsException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,9 @@ public class Client {
     private Account activeAccount;
     private float initialOverdraft;
     private Gender gender;
+    private String email;
+    private String phone;
+
     private final static int INITIAL_OVERDRTAFT = 300;
     public final static String CLIENT_CHECKING_ACCOUNT_TYPE = "checking";
     public final static String CLIENT_SAVING_ACCOUNT_TYPE = "saving";
@@ -40,7 +43,7 @@ public class Client {
     }
 
     public Client(Gender gender, float initialOverdraft) {
-        this(INITIAL_OVERDRTAFT);
+        this(initialOverdraft);
         setGender(gender);
     }
 
@@ -78,6 +81,22 @@ public class Client {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public void deposit(float x) {
@@ -155,6 +174,9 @@ public class Client {
     }
     public void  printReport() {
         System.out.println("  Client name       : " + getClientSalutation());
+        System.out.println("  Client geder      : " + (getGender() != null?getGender().gender: ""));
+        System.out.println("  Client phone      : " + getPhone());
+        System.out.println("  Client email      : " + getEmail());
         System.out.format("  Client overdraft  : %.2f\n", getInitialOverdraft());
         System.out.format("  Client balance    : %.2f\n", getBalance());
         System.out.println("  Active account    :");
@@ -174,10 +196,54 @@ public class Client {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Client client = (Client) o;
+
+        if (Float.compare(client.initialOverdraft, initialOverdraft) != 0) return false;
+        if (name != null ? !name.equals(client.name) : client.name != null) return false;
+        if (phone != null ? !phone.equals(client.phone) : client.phone != null) return false;
+        if (email != null ? !email.equals(client.email) : client.email != null) return false;
+        if (accounts != null ? !accounts.equals(client.accounts) : client.accounts != null) return false;
+        if (activeAccount != null ? !activeAccount.equals(client.activeAccount) : client.activeAccount != null)
+            return false;
+
+        return gender == client.gender;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (phone != null ? phone.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (accounts != null ? accounts.hashCode() : 0);
+        result = 31 * result + (accounts != null ? accounts.hashCode() : 0);
+        result = 31 * result + (activeAccount != null ? activeAccount.hashCode() : 0);
+        result = 31 * result + (initialOverdraft != +0.0f ? Float.floatToIntBits(initialOverdraft) : 0);
+        result = 31 * result + (gender != null ? gender.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
+        StringBuilder accountData = new StringBuilder();
+        accountData.append("Accounts count: "+(accounts != null? accounts.size():0) + "{");
+
+        for(int i=0; accounts != null  && i <accounts.size();i++) {
+            if (i!=0) {
+                accountData.append(", ");
+            }
+            accountData.append("acc["+i+"]={"+accounts.get(i)+"}");
+        };
+        accountData.append("}");
         return "Client{" +
                 "name='" + name + '\'' +
-                ", accounts=" + accounts +
+                ", phone=" + phone +
+                ", email=" + email +
+                ", accounts=" + accountData.toString() +
                 ", activeAccount=" + activeAccount +
                 ", initialOverdraft=" + initialOverdraft +
                 ", gender=" + gender +

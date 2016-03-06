@@ -1,7 +1,7 @@
 package org.test.bankapp.model;
 
-import org.test.NotEnoughFundsException;
-import org.test.Report;
+import org.test.bankapp.NotEnoughFundsException;
+import org.test.bankapp.Report;
 
 public interface Account extends Report {
     // Получить баланс
@@ -13,4 +13,6 @@ public interface Account extends Report {
     // Снять деньги со счета
     void withdraft(float x) throws NotEnoughFundsException;
 
+    //  выводящий округленное значение баланса счета
+    void decimalValue();
 }
