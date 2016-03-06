@@ -1,4 +1,4 @@
-package org.test;
+package org.test.bankapp.model;
 
 
 import org.apache.logging.log4j.Level;

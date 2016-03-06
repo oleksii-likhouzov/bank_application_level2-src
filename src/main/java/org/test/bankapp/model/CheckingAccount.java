@@ -1,8 +1,10 @@
-package org.test;
+package org.test.bankapp.model;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.test.NotEnoughFundsException;
+import org.test.OverDraftLimitExceededException;
 
 public final class CheckingAccount extends AbstractAccount {
     private static final Logger log = LogManager.getLogger(CheckingAccount.class);
@@ -33,7 +35,7 @@ public final class CheckingAccount extends AbstractAccount {
                     "  for account is not possible. Account balance: " +
                     getBalance() +
                     ". Account overdraft:" + overdraft);
-            throw new OverDraftLimitExceededException (this, x);
+            throw new OverDraftLimitExceededException(this, x);
         }
         setBalance(getBalance() - x);
     }

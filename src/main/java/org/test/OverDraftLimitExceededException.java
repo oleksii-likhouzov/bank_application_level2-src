@@ -1,6 +1,8 @@
 package org.test;
 
 
+import org.test.bankapp.model.CheckingAccount;
+
 public class OverDraftLimitExceededException extends NotEnoughFundsException {
     private CheckingAccount account;
     private float withdraft;

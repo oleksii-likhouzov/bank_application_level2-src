@@ -1,4 +1,6 @@
-package org.test;
+package org.test.bankapp.model;
+
+import org.test.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,19 +36,20 @@ public class Bank implements Report {
     public void registerEvent(ClientRegistrationListener listener) {
         listeners.add(listener);
     }
+
     public Bank() {
         registerEvent(new PrintClientListener());
         registerEvent(new EmailNotificationListener());
     }
 
-    private void checkDuplicateName(Client client) throws ClientExistsException
-    {
-        for (int i=1; i<=clients.size();i++) {
-            if(clients.get(i-1).getName().equals(client.getName())){
+    private void checkDuplicateName(Client client) throws ClientExistsException {
+        for (int i = 1; i <= clients.size(); i++) {
+            if (clients.get(i - 1).getName().equals(client.getName())) {
                 throw new ClientExistsException();
             }
         }
     }
+
     public void addClient(Client client) throws ClientExistsException {
         checkDuplicateName(client);
         clients.add(client);
@@ -73,22 +76,11 @@ public class Bank implements Report {
         Client client;
         for (int i = 1; clients != null && i <= clients.size(); i++) {
             client = clients.get(i - 1);
+
             System.out.println("==============================================================");
             System.out.println("Clinet # [" + i + "]");
             System.out.println("==============================================================");
-            System.out.println("  Client name       : " + client.getName());
-            System.out.format("  Client overdraft  : %.2f\n", client.getInitialOverdraft());
-            System.out.format("  Client balance    : %.2f\n", client.getBalance());
-            System.out.println("  Active account    :");
-            client.getActiveAccount().printReport();
-            List<Account> accounts = client.getAccounts();
-            System.out.println("  Client accounts information  (accounts count " + accounts.size() + ") :");
-            for (int j = 1; j <= accounts.size(); j++) {
-                //System.out.println("--------------------------------------------------------------");
-                System.out.println("Account # [" + j + "]");
-                accounts.get(j - 1).printReport();
-                System.out.println("--------------------------------------------------------------");
-            }
+            client.printReport();
             System.out.println("==============================================================");
         }
     }
